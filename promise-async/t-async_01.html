@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <ul id="productList">
+      <!-- js출력 -->
+    </ul>
+    <script>
+      async function getProducts() {
+        try {
+          const res = await fetch("https://fakestoreapi.com/products?limit=5");
+          console.log(res);
+          const data = await res.json();
+          console.log(data);
+          const list = document.getElementById("productList");
+          data.forEach((item) => {
+            // console.log(item);
+            list.innerHTML += `
+             <li>${item.title} : $ ${item.price}</li>
+            `;
+          });
+        } catch (error) {
+          console.error("에러발생:", error);
+        } finally {
+          console.log("데이터 불러오기 완료");
+        }
+      }
+      getProducts();
+    </script>
+  </body>
+</html>

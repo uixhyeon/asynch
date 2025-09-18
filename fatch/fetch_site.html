@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            list-style: none;
+        }
+        #productList{
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit , minmax(240px , 1fr));
+            background-color: aquamarine;
+            gap: 10px;
+        }
+#productList li{
+padding: 10px;
+background-color: aliceblue;
+border: 1px solid #ccc;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+}
+    
+#productList li img{
+   width: 100%; 
+   aspect-ratio: 1/1;
+   object-fit: contain;
+   /* background-color: red; */
+}
+    </style>
+  </head>
+  <body>
+    <h1>🛒 쇼핑몰</h1>
+    <button id="loadBtn">상품 불러오기</button>
+    <ul id="productList">
+    <li>
+        <div class="txt">상품타이틀</div>
+        <div class="item-img">
+            <img src="" alt="">
+        </div>
+       </li>
+      <!-- js출력 -->
+    </ul>
+    <script>
+      const producList = document.getElementById("productList");
+      const loadBtn = document.getElementById("loadBtn");
+      loadBtn.addEventListener("click", () => {
+        // 비동기 요청 (서버 가짜 데이터 가져오기)
+        fetch("https://fakestoreapi.com/products?limit=10")
+          .then((response) => {
+            console.log(response);
+
+            return response.json();
+          })
+          //   .then((res) => res.json())
+          .then((data) => {
+            // console.log(data)
+            producList.innerHTML =""
+            data.forEach((item)=>{
+// console.log(item)
+producList.innerHTML += `
+ <li>
+        <div class="txt">${item.title}</div>
+        <div class="item-img">
+           <img src="${item.image}" alt="${item.description}">
+        </div>
+       </li>
+` 
+            })
+          })
+          .catch((err) => {
+            alert("데이터를 불러오는 중 오류 발생 🧨");
+            console.error(err);
+          });
+      });
+    </script>
+  </body>
+</html>

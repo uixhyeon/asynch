@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      //  // 용량많은게 있으면 다른것부터 하고 나중에 하게 만들기 위해
+      // async = 이 함수 안에서 기다릴 수 있어?
+      async function fcn() {
+          // 트라이 캐치문
+          try{
+      // 2)await 로 기다리기
+      const 결과 = await 오래걸리는일()
+      console.log("성곡하면" , 결과)
+          }
+          catch(error){
+      console.log("실패" , error)
+          }
+          finally{
+      console.log("무조건 실행됨")
+          }
+      }
+      fcn()
+    </script>
+  </body>
+</html>

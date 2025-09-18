@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="t-main.css" />
+  </head>
+  <body>
+    <div class="gallery_wrap">
+      <!-- js출력 -->
+    </div>
+    <script>
+      // 비동기 데이터 출력
+      async function loadFallery() {
+        // console.log("호출완료");
+        try {
+          const res = await fetch("gallery.json");
+          // console.log(res);
+          if (!res.ok) {
+            throw new Error(
+              `데이터 불러오기 실패 : ${res.status} ${res.statusText} `
+            );
+          }
+          // 정상 응답이면 JSON 변환 (파상)
+          const data = await res.json();
+          // console.log(data);
+          const galleryWrap = document.querySelector(".gallery_wrap");
+          data.forEach((item) => {
+            // console.log(item);
+            galleryWrap.innerHTML += `
+             <div class="gallery_item">
+        <img src="${item.img}" alt="${item.title}" />
+        <div class="item_desc">
+          <h1>${item.title}</h1>
+          <p>${item.dec}</p>
+        </div>
+      </div>
+      <!-- 클릭했을때 디테일 화면 -->
+      <div class="gallery_datail">
+        <div class="gallery_detail_wrap">
+          <div class="detail_left">
+            <img src="${item.img}" alt="${item.title}" />
+          </div>
+          <div class="detail_right">
+            <div class="content">
+              <h1 class="detail_title">${item.title}</h1>
+              <div class="title_line"></div>
+              <p class="detail_sub">${item.info}</p>
+            </div>
+          </div>
+        </div>
+        <a href="#" class="closeBtn">&times;</a>
+      </div>
+            `;
+          });
+          // 아이템 클릭 기능
+          const items = document.querySelectorAll(".gallery_item");
+          const details = document.querySelectorAll(".gallery_datail");
+          items.forEach((item, idx) => {
+            // console.log(item,idx);
+            console.log(details[idx]);
+
+            item.addEventListener("click", () => {
+              details[idx].classList.add("active");
+            });
+          });
+          //   닫기 버튼 기능
+          const coloseBtn = document.querySelectorAll(".closeBtn");
+          coloseBtn.forEach((btn, idx) => {
+            btn.addEventListener("click", () => {
+              details[idx].classList.remove("active");
+            });
+          });
+        } catch (err) {
+          console.error("갤러리 로드 실패:", err);
+        }
+      }
+      // 함수 호출
+      loadFallery();
+    </script>
+  </body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="t-main.css">
+  </head>
+  <body>
+    <div class="gallery_wrap">
+      <!-- js출력 -->
+       <div class="gallery_item">
+<img src="gallery/gallery1.jpg" alt="">
+<div class="item_desc">
+    <h1>타이틀</h1>
+    <p>설명</p>
+</div>
+       </div>
+       <!-- 클릭했을때 디테일 화면 -->
+        <div class="gallery_detail">
+            <div class="gallery_detail_wrap">
+                <div class="ditail_left">
+                    <img src="gallery/gallery1.jpg" alt="">
+                </div>
+                <div class="detail_right">
+                    <div class="content">
+                        <h1 class="tetail_title">타이틀</h1>
+                        <div class="title_line"></div>
+                        <p>설명인포</p>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="closeBtn">&tilde;</a>
+        </div>
+    </div>
+    <script>
+      // 비동기 데이터 출력
+      async function loadFallery() {
+        // console.log("호출완료");
+        try {
+          const res = await fetch("gallery.json");
+        //   console.log(res);
+    const galleryWrap = document.querySelector(".gallery_wrap")
+data.forEach((item)=>{
+console.log(item)
+galleryWrap.innerHTML +=`
+ <div class="gallery_item">
+<img src="${item.img}" alt="${item.title}">
+<div class="item_desc">
+    <h1>${item.title}</h1>
+    <p>${item.desc}</p>
+</div>
+       </div>
+       <!-- 클릭했을때 디테일 화면 -->
+        <div class="gallery_detail">
+            <div class="gallery_detail_wrap">
+                <div class="ditail_left">
+                    <img src="${item.img}" alt="${item.title}">
+                </div>
+                <div class="detail_right">
+                    <div class="content">
+                        <h1 class="tetail_title">${item.title}</h1>
+                        <div class="title_line">${item.title}</div>
+                        <p>${item.info}</p>
+                    </div>
+                </div>
+            </div>
+            <a href="#" class="closeBtn">&tilde;</a>
+        </div>
+
+`
+})
+
+    
+if(!res.ok){
+    throw new Error(
+        ` 데이터 불러오기 실패 : ${res.status} ${res.statusText}`
+        // 제이슨이 없을때 뜬다~~
+    )
+}
+// 정상 응답이면 jason 변경(파싱)
+const data = await res.json()
+console.log(data)
+
+
+        } catch (err) {
+          console.error("갤러리 로드 실패:", err);
+        }
+      }
+
+      // 함수 호출
+      loadFallery();
+    </script>
+  </body>
+</html>
